@@ -9,5 +9,6 @@ menyu = ReplyKeyboardMarkup(
             KeyboardButton(text='2-tugma')
         ],
 
-    ]
+    ],
+    resize_keyboard=True
 )

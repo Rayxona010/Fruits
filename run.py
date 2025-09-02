@@ -1,13 +1,13 @@
 import asyncio
-from aiogram import Bot, Dispatcher, F
-from aiogram.types import  Message
+from aiogram import Bot, Dispatcher
+from aiogram.types import Message
 from aiogram.filters import Command
 
 from config import TOKEN, ADMIN_ID
 from keyboards import menyu
 
 bot = Bot(token=TOKEN)
-dp = Dispatcher(bot)
+dp = Dispatcher()
 
 mevalar = {
     "olma": {
@@ -76,26 +76,26 @@ async def start_handler(message: Message):
     )
 
 
-@dp.message(F.text)
-async def tanlash_handler(message: Message):
-    tanlangan = message.text
-    info = mevalar[tanlangan]
-    matn = f"{tanlangan} \n \n Narx:{info['Narxi']}\n Tavsif: {info['Tavsifi']}"
-    await message.answer(text='...')
+# @dp.message(F.text)
+# async def tanlash_handler(message: Message):
+#     tanlangan = message.text
+#     info = mevalar[tanlangan]
+#     matn = f"{tanlangan} \n \n Narx:{info['Narxi']}\n Tavsif: {info['Tavsifi']}"
+#     await message.answer(text='...')
 
 
-@dp.message()
-async def boshqa_handler(message: Message):
-    await message.answer("Iltimos menyudagi mevalardan birini tanlang:")
-
+# @dp.message(F.text)
+# async def boshqa_handler(message: Message):
+#     await message.answer("Iltimos menyudagi mevalardan birini tanlang:")
+#
 
 async def main():
     try:
         await bot.send_message(chat_id=ADMIN_ID, text="Bot ishga tushdi")
-    except Exception as e:
-        await bot.send_message("Bot xatolik tufayli to'xtadi:\n {str(ex)}")
-    finally:
-        await bot.send_message("Bot to'xtadi")
+        await dp.start_polling(bot)
+    except Exception as ex:
+        await bot.send_message(chat_id=ADMIN_ID, text=f"Bot xatolik tufayli to'xtadi:\n {ex}")
+
 
 
 if __name__ == "__main__":
